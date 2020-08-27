@@ -138,8 +138,9 @@ void DemoProcessor::onsetDetected (tid::aubio::Onset<float> *aubioOnset){
     onsetDetectedRoutine();
 }
 #else
-void DemoProcessor::onsetDetected (tid::Bark<float> * bark)
+void DemoProcessor::onsetDetected (tid::Bark<float> * bark, unsigned int samplesFromPeak)
 {
+    std::cout << "sfp: " << samplesFromPeak << "\n"; //TODO: fix
     if(bark == &this->bark)
         this->onsetMonitorState.exchange(true);
     onsetDetectedRoutine();

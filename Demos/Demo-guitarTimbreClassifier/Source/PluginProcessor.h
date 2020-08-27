@@ -90,7 +90,7 @@ private:
     /* Output sound */
     WavetableSine sinewt;
 
-    void onsetDetected (tid::Bark<float>* bark);
+    void onsetDetected (tid::Bark<float>* bark, unsigned int samplesFromPeak);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DemoProcessor)
 };

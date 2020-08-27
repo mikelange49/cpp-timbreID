@@ -61,7 +61,7 @@ public:
     std::atomic<bool> onsetMonitorState{false};
 
 private:
-    void onsetDetected (tid::Bark<float>* bark);
+    void onsetDetected (tid::Bark<float>* bark, unsigned int samplesFromPeak);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DemoProcessor)
 };

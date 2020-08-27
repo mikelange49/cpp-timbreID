@@ -113,7 +113,7 @@ void DemoProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMe
  * Onset Detected Callback
  * Remember that this is called from the audio thread so it must not update the GUI directly
 **/
-void DemoProcessor::onsetDetected (tid::Bark<float> * bark)
+void DemoProcessor::onsetDetected (tid::Bark<float> * bark, unsigned int samplesFromPeak)
 {
     if(bark == &this->bark)
         this->onsetMonitorState.exchange(true);

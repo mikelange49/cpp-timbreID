@@ -534,7 +534,7 @@ public:
         virtual ~Listener() = default;
 
         /** Called when the onset is detected. */
-        virtual void onsetDetected (Bark *) = 0;
+        virtual void onsetDetected (Bark *, unsigned int) = 0;
     };
 
     /** Registers a listener to receive events when onsets are detected.
@@ -599,6 +599,7 @@ private:
 
     bool debounceActive = false;    //system flag, stays true for debounceTime millis after every hit
     bool haveHit = false;
+    unsigned int samplesFromHit = 0; //samples processed from the beginning of the hop frame of a signaled onset
 
     std::vector<float> blackman;
     std::vector<float> cosine;
@@ -743,9 +744,9 @@ private:
         createLoudnessWeighting();
     }
 
-    void outputOnset()
+    void outputOnset(unsigned int samplesFromOnset)
     {
-        barkListeners.call([this] (Listener& l) { l.onsetDetected (this); });
+        barkListeners.call([this, samplesFromOnset] (Listener& l) { l.onsetDetected (this,samplesFromOnset); });
     }
 
     GrowthData perform(const SampleType* input, size_t n)
@@ -772,7 +773,7 @@ private:
 
         if(this->dspTick >= this->hop)
         {
-            this->dspTick = 0;
+            //dspTick is reset at the end of the block
             totalGrowth = 0.0;
             totalVel = 0.0;
 
@@ -866,6 +867,7 @@ private:
                      this->debugLogger->logMessage("Peak: " + std::to_string(totalGrowth));
 
                 this->haveHit = true;
+                this->samplesFromHit = dspTick; // start counting samples from the beginning of the frame
                 this->debounceActive = true;
                 Timer::startTimer(this->debounceTime); // wait debounceTime ms before allowing another attack
             }
@@ -880,7 +882,8 @@ private:
                 if(!this->isSpewMode)
                     growthData.setData(growth,totalGrowth);
 
-                outputOnset();
+                outputOnset(this->samplesFromHit+dspTick);
+                this->samplesFromHit = 0;
             }
             else if(this->haveHit && this->loThresh<0 && totalGrowth < this->prevTotalGrowth) // if loThresh == -1, report attack as soon as growth shows any decay at all
             {
@@ -893,7 +896,12 @@ private:
                 if(!this->isSpewMode)
                     growthData.setData(growth,totalGrowth);
 
-                outputOnset();
+                outputOnset(this->samplesFromHit+dspTick);
+                this->samplesFromHit = 0;
+            }
+            else if(this->haveHit)
+            {
+                this->samplesFromHit += dspTick;
             }
 
             if(this->isSpewMode)
@@ -916,6 +924,7 @@ private:
             }
 
             this->prevTotalGrowth = totalGrowth;
+            this->dspTick = 0;
         }
 
         return growthData;

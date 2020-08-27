@@ -16,7 +16,7 @@
 #include <JuceHeader.h>
 #include "juce_timbreID.h"
 
-#define USE_AUBIO_ONSET //If this commented, the bark onset detector is used, otherwise the aubio onset module is used
+//#define USE_AUBIO_ONSET //If this commented, the bark onset detector is used, otherwise the aubio onset module is used
 
 //==============================================================================
 /**
@@ -75,7 +75,7 @@ public:
 
     /**    Initialize the onset detector      **/
     tid::Bark<float> bark{WINDOW_SIZE, HOP, BARK_SPACING};
-    void onsetDetected (tid::Bark<float>* bark);
+    void onsetDetected (tid::Bark<float>* bark, unsigned int samplesFromPeak);
    #endif
     void onsetDetectedRoutine();
 
