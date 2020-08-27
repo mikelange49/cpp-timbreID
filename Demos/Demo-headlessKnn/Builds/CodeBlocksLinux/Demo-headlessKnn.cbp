@@ -46,6 +46,7 @@
           <Add directory="../../../../include"/>
           <Add directory="../../../../src"/>
           <Add directory="../../../../"/>
+          <Add directory="/home/domenico/Develop/aubio/src"/>
           <Add directory="/usr/include/freetype2"/>
         </Compiler>
         <Linker>
@@ -54,6 +55,7 @@
           <Add library="rt"/>
           <Add library="dl"/>
           <Add library="pthread"/>
+          <Add directory="/home/domenico/Develop/aubio/build/src"/>
         </Linker>
       </Target>
       <Target title="VST | Debug">
@@ -95,6 +97,7 @@
           <Add directory="../../../../include"/>
           <Add directory="../../../../src"/>
           <Add directory="../../../../"/>
+          <Add directory="/home/domenico/Develop/aubio/src"/>
           <Add directory="/usr/include/freetype2"/>
         </Compiler>
         <Linker>
@@ -105,6 +108,7 @@
           <Add library="rt"/>
           <Add library="dl"/>
           <Add library="pthread"/>
+          <Add directory="/home/domenico/Develop/aubio/build/src"/>
           <Add directory="&quot;bin/Debug&quot;"/>
         </Linker>
       </Target>
@@ -145,6 +149,7 @@
           <Add directory="../../../../include"/>
           <Add directory="../../../../src"/>
           <Add directory="../../../../"/>
+          <Add directory="/home/domenico/Develop/aubio/src"/>
           <Add directory="/usr/include/freetype2"/>
         </Compiler>
         <Linker>
@@ -154,6 +159,7 @@
           <Add library="rt"/>
           <Add library="dl"/>
           <Add library="pthread"/>
+          <Add directory="/home/domenico/Develop/aubio/build/src"/>
         </Linker>
       </Target>
       <Target title="VST | Release">
@@ -193,6 +199,7 @@
           <Add directory="../../../../include"/>
           <Add directory="../../../../src"/>
           <Add directory="../../../../"/>
+          <Add directory="/home/domenico/Develop/aubio/src"/>
           <Add directory="/usr/include/freetype2"/>
         </Compiler>
         <Linker>
@@ -204,6 +211,7 @@
           <Add library="rt"/>
           <Add library="dl"/>
           <Add library="pthread"/>
+          <Add directory="/home/domenico/Develop/aubio/build/src"/>
           <Add directory="&quot;bin/Release&quot;"/>
         </Linker>
       </Target>
@@ -220,7 +228,8 @@
       <Add option="-Wno-strict-overflow"/>
     </Compiler>
     <Linker>
-      <Add library="/usr/local/lib/libfftw3f.a"/>
+      <Add library="fftw3f"/>
+      <Add library="aubio"/>
     </Linker>
     <Unit filename="../../../../include/attackTime.hpp">
       <Option target="Shared Code | Debug"/>
